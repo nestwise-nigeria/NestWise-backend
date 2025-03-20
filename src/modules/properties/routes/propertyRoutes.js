@@ -1,4 +1,6 @@
 const express = require('express')
+const validateRequest = require('../../../middlewares/validateRequest')
+const propertyValidator = require('../../../validations/listingValidation')
 const { addProperty, 
     getAllProperty, 
     getSingleProperty, 
@@ -9,7 +11,7 @@ const router = express.Router();
 
 router.get('/:id', getSingleProperty);
 router.get('/', getAllProperty);
-router.post('/', addProperty);
+router.post('/', validateRequest(propertyValidator), addProperty);
 router.put('/:id', updateSingleProperty);
 router.delete('/:id', deleteSingleProperty);
 
