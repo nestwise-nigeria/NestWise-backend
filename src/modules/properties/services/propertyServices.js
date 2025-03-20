@@ -1,4 +1,5 @@
 const Property = require('../models/propertyModel');
+const { error } = require('../../../utils/helpers');
 const create = async (data) => {
     try{
         const newProperty = await Property.create(
@@ -20,7 +21,7 @@ const create = async (data) => {
         return (newProperty);
     }
     catch(err){
-        throw new Error(err);
+        error(500, err.message);
     }
     
 
