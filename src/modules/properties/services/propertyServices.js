@@ -1,0 +1,31 @@
+const Property = require('../models/propertyModel');
+const create = async (data) => {
+    try{
+        const newProperty = await Property.create(
+            {
+                title: data.title,
+                description:data.description,
+                price: data.price,
+                address: data.address,
+                city: data.city,
+                state: data.state,
+                property_type: data.propertyType.toLowerCase(),
+                listing_type: data.listingType,
+                bedroom: data.bedroom || null,
+                bathroom: data.bathroom || null,
+                square_feet: data.squareFeet || null,
+        }
+        );
+
+        return (newProperty);
+    }
+    catch(err){
+        throw new Error(err);
+    }
+    
+
+}
+
+module.exports = {
+    create
+}
