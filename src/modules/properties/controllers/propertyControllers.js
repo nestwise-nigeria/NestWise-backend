@@ -13,7 +13,16 @@ const addProperty = async (req, res) => {
 
 }
 
-const getAllProperty = (req, res) => {
+const getAllProperty = async (req, res) => {
+    try{
+        const properties = await propertyService.getAll();
+
+        res.status(200).json( { success: true, data: properties });
+    }
+    catch(err){
+        res.status(err.statusCode).json({ success: false, message: err.message });
+    }
+    
 
 }
 

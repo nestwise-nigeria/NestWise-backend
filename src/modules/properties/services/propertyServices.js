@@ -27,6 +27,18 @@ const create = async (data) => {
 
 }
 
+const getAll = async () => {
+    try{
+        const properties = Property.findAll({});
+        return (properties);
+    }
+    catch(err){
+        error(500, err.message);
+    }
+    
+}
+
 module.exports = {
-    create
+    create,
+    getAll
 }
