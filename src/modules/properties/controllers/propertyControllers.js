@@ -26,8 +26,18 @@ const getAllProperty = async (req, res) => {
 
 }
 
-const getSingleProperty = (req, res) => {
-    const id = req.params.id;
+const getSingleProperty = async(req, res) => {
+    try{
+        const id = req.params.id;
+        const property = await propertyService.getOne(id);
+
+        res.status(200).json( { success: true, data: property });
+    }
+    catch(err){
+        res.status(err.statusCode).json({ success: false, message: err.message });
+    }
+    
+
 
 }
 

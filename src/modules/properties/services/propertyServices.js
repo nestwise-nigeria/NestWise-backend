@@ -38,7 +38,21 @@ const getAll = async () => {
     
 }
 
+const getOne = async (id) => {
+    try{
+        const property = await Property.findOne({ where: { id }});
+        
+        if(!property || property === null)error(404, 'Property Not Found!');
+
+        return property;
+    }
+    catch(err){
+        error(err.statusCode || 500, err.message);
+    }
+}
+
 module.exports = {
     create,
-    getAll
+    getAll,
+    getOne
 }
