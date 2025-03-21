@@ -41,8 +41,24 @@ const getSingleProperty = async(req, res) => {
 
 }
 
-const updateSingleProperty = (req, res) => {
-    const id = req.params.id;
+const updateSingleProperty = async (req, res) => {
+    try{
+        const id = req.params.id;
+        const { title, description, propertyType,
+            price, status, listingType, bathroom, bedroom,
+            squareFeet, address, city, state, 
+         } = req.body
+
+         const updatedProperty = await propertyService.updateOne({ id, title, description, propertyType,
+                                                                price, status, listingType, bathroom, bedroom,
+                                                                squareFeet, address, city, state });
+        
+        res.status(200).json({ success: true, message: 'property updated successfully', data: updatedProperty });
+
+    }
+    catch(err){
+        res.status(err.statusCode).json({ success: false, message: err.message });
+    }
 }
 
 const deleteSingleProperty = (req, res) => {

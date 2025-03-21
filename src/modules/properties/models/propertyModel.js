@@ -22,7 +22,7 @@ const Property = db.define(
             allowNull: false
         },
         price: {
-            type: DataTypes.DECIMAL(8,2),
+            type: DataTypes.DECIMAL(12,2),
             allowNull: false
         },
         status: {
