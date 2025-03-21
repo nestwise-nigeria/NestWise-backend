@@ -4,13 +4,11 @@ const addProperty = async (req, res) => {
     try{
         const data = req.body
         const property = await propertyService.create(data);
-
         res.status(201).json({ success: true, data: property });
     }
     catch(err){
         res.status(err.statusCode).json({ success: false, message: err.message });
     }
-
 }
 
 const getAllProperty = async (req, res) => {
@@ -22,8 +20,6 @@ const getAllProperty = async (req, res) => {
     catch(err){
         res.status(err.statusCode).json({ success: false, message: err.message });
     }
-    
-
 }
 
 const getSingleProperty = async(req, res) => {
@@ -36,9 +32,6 @@ const getSingleProperty = async(req, res) => {
     catch(err){
         res.status(err.statusCode).json({ success: false, message: err.message });
     }
-    
-
-
 }
 
 const updateSingleProperty = async (req, res) => {
@@ -61,8 +54,16 @@ const updateSingleProperty = async (req, res) => {
     }
 }
 
-const deleteSingleProperty = (req, res) => {
+const deleteSingleProperty = async (req, res) => {
     const id = req.params.id;
+    try{
+        const deleted = await propertyService.deleteOne(id);
+
+        res.status(200).json({ success: true, messsage: 'Item deleted successfully', data: deleted });
+    }
+    catch(err){
+        res.status(err.statusCode).json({ success: false, message: err.message });
+    }
 }
 
 module.exports = {

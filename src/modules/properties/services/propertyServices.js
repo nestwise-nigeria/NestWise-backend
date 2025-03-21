@@ -35,7 +35,6 @@ const getAll = async () => {
     catch(err){
         error(500, err.message);
     }
-    
 }
 
 const getOne = async (id) => {
@@ -81,18 +80,32 @@ const updateOne = async ({id, title, description, propertyType,
               });
 
               return updatedProperty
-
-
         }
         catch(err){
             error(err.statusCode || 500, err.message || "Internal server error");
         }
-        
-
 }
+
+const deleteOne = async (id) => {
+    try{
+         //check if item is in the database
+        const property = await Property.findOne({ where: { id }});
+
+        if(!property || property === null)error(404, 'Property Not Found!');
+
+        const deletedData = await Property.destroy({ where: { id}});
+
+        if(!deletedData)error(500, 'Internal Server Error');
+    }
+    catch(err){
+        error(err.statusCode || 500, err.message || 'Internal Server Error!');
+    }
+}
+
 module.exports = {
     create,
     getAll,
     getOne,
-    updateOne
+    updateOne,
+    deleteOne
 }
