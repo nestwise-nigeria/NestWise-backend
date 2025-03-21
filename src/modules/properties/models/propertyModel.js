@@ -18,7 +18,7 @@ const Property = db.define(
         },
         property_type: {
             type: DataTypes.ENUM('land', 'office', 'apartment', 'house'),
-            defaultValue: 'land',
+            defaultValue: 'house',
             allowNull: false
         },
         price: {

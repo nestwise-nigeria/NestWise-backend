@@ -51,7 +51,12 @@ const propertySchema = Joi.object({
     propertyType: Joi.string()
             .required()
             .messages({
-      "any.required": "State is required",
+      "any.required": "Property type is required",
+    }),
+    listingType: Joi.string()
+            .required()
+            .messages({
+      "any.required": "Listing type is required",
     }),
 
   });
