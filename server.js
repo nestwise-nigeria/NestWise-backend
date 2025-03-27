@@ -13,10 +13,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-
-app.get('/', () => {
-    console.log('welcome to home route');
-});
 //connect allapi routes
 app.use('/api', router);
 
