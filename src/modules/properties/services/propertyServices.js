@@ -1,20 +1,23 @@
+const { Op } = require("sequelize");
 const Property = require('../models/propertyModel');
 const { error } = require('../../../utils/helpers');
 const create = async (data) => {
     try{
         const newProperty = await Property.create(
             {
-                title: data.title,
+                name: data.name,
+                imageUrls: data.imageUrls,
                 description:data.description,
-                price: data.price,
+                regularPrice: data.regularPrice,
+                discountPrice: data.discountPrice,
                 address: data.address,
-                city: data.city,
-                state: data.state,
-                property_type: data.propertyType.toLowerCase(),
-                listing_type: data.listingType,
-                bedroom: data.bedroom || null,
-                bathroom: data.bathroom || null,
-                square_feet: data.squareFeet || null,
+                type: data.type,
+                bedrooms: data.bedrooms || null,
+                bathrooms: data.bathrooms || null,
+                status: data.status,
+                location: data.location,
+                offer: data.offer,
+                isFeatured: data.isFeatured
         }
         );
 
@@ -27,13 +30,57 @@ const create = async (data) => {
 
 }
 
-const getAll = async () => {
+const getAll = async ({ name, description, location, bedrooms, min, max, type, page = 1,
+    perPage = 10, }) => {
     try{
-        const properties = Property.findAll({});
-        return (properties);
+        const where = {}
+        if(name) where.name = name;
+        if(description) where.description = { [Op.iLike]: `%${description}%` };
+        if(location) where.location = { [Op.iLike]: `%${location}%` };
+        if(bedrooms) where.bedrooms = bedrooms;
+        if (min && max) {
+            where.regularPrice = { [Op.between]: [min, max] };
+          } else if (min) {
+            where.regularPrice = { [Op.gte]: min };
+          } else if (max) {
+            where.regularPrice = { [Op.lte]: max };
+          };
+        if(type) where.type = type;
+
+    const sortOption = [
+            ['isFeatured', 'DESC'],  // Featured properties come first
+            ['createdAt', 'DESC']     // Then sort by newest first
+          ];
+
+          // Pagination
+    const limit = parseInt(perPage, 10);
+    const offset = (parseInt(page, 10) - 1) * limit;
+
+        const properties = await Property.findAndCountAll({
+            where,
+            order: sortOption,
+            limit,
+            offset,
+        });
+
+        if (!properties.rows.length) {
+            // throw new Error("No properties found!");
+            error(404, 'No prperty found');
+          }
+      
+          const response =  {
+            total: properties.count,
+            page: parseInt(page, 10),
+            perPage: limit,
+            totalPages: Math.ceil(properties.count / limit),
+            properties: properties.rows,
+          };
+
+
+        return (response);
     }
     catch(err){
-        error(500, err.message);
+        error(err.statusCode || 500, err.message || 'Internal server error');
     }
 }
 
@@ -50,23 +97,24 @@ const getOne = async (id) => {
     }
 }
 
-const updateOne = async ({id, title, description, propertyType,
-                        price, status, listingType, bathroom, bedroom,
-                        squareFeet, address, city, state }) => {
+const updateOne = async ({id, name, description, type,
+                        regularPrice, discountPrice, status, bathrooms, bedrooms,
+                        address, location, isFeatured, offer }) => {
         try{
             const query = {};
-            if(title) query.title = title;
+            if(title) query.name = name;
             if(description) query.description = description;
-            if(propertyType) query.property_type = propertyType;
-            if(price) query.price = price;
+            if(type) query.type = type;
+            if(regularPrice) query.price = regularPrice;
+            if(discountPrice) query.price = discountPrice;
             if(status) query.status = status;
-            if(listingType) query.listing_type = listingType;
-            if(bathroom) query.bathroom = bathroom;
-            if(bedroom) query.bedroom = bedroom;
+            if(bathrooms) query.bathroom = bathrooms;
+            if(bedrooms) query.bedroom = bedrooms;
             if(squareFeet) query.square_feet = squareFeet;
             if(address) query.address = address;
-            if(city) query.city = city;
-            if(state) query.state = state;
+            if(location) query.location = location;
+            if(isFeatured) query.isFeatured = isFeatured;
+            if(offer) query.offer = offer
 
             query.updatedAt = new Date();
 
