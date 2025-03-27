@@ -13,7 +13,8 @@ const addProperty = async (req, res) => {
 
 const getAllProperty = async (req, res) => {
     try{
-        const properties = await propertyService.getAll();
+        const { name, description, bedrooms, min, max, location, type  } = req.query;
+        const properties = await propertyService.getAll({ name, description, bedrooms, min, max, location, type });
 
         res.status(200).json( { success: true, data: properties });
     }
@@ -37,14 +38,13 @@ const getSingleProperty = async(req, res) => {
 const updateSingleProperty = async (req, res) => {
     try{
         const id = req.params.id;
-        const { title, description, propertyType,
-            price, status, listingType, bathroom, bedroom,
-            squareFeet, address, city, state, 
+        const { name, description, type,
+            regularPrice, discountPrice, status, bathrooms, bedrooms, address, location, isFeatured
          } = req.body
 
-         const updatedProperty = await propertyService.updateOne({ id, title, description, propertyType,
-                                                                price, status, listingType, bathroom, bedroom,
-                                                                squareFeet, address, city, state });
+         const updatedProperty = await propertyService.updateOne({ id, name, description, type,
+                                                                regularPrice, discountPrice, status, bathrooms, bedrooms,
+                                                             address, location, isFeatured, offer });
         
         res.status(200).json({ success: true, message: 'property updated successfully', data: updatedProperty });
 
