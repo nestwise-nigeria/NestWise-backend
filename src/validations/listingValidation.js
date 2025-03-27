@@ -1,63 +1,78 @@
 const Joi = require('joi')
 
 const propertySchema = Joi.object({
-    title: Joi.string()
+    name: Joi.string()
             .min(5)
             .required()
             .messages({
-      "any.required": "Property title is required",
+      "any.required": "name is required",
     }),
     description: Joi.string()
             .min(15)
             .required()
             .messages({
-      "any.required": "Property description is required",
+      "any.required": "description is required",
     }),
-    price: Joi.string()
-            .required()
+    imageUrls: Joi.array()
             .messages({
-      "any.required": "Price is required",
+      "any.required": "imageUrls should be added as array",
     }),
     address: Joi.string()
             .required()
             .messages({
-      "any.required": "Address is required",
+      "any.required": "address is required",
     }),
-    city: Joi.string()
-            .required()
-            .messages({
-      "any.required": "City is required",
-    }),
-    state: Joi.string()
-            .required()
-            .messages({
-      "any.required": "State is required",
-    }),
-    bathroom: Joi.number()
+    bathrooms: Joi.number()
             .integer()
             .messages({
-      "any.required": "Bathroom must be a number",
+      "any.required": "bathrooms is required",
     }),
-    bedroom: Joi.number()
+    bedrooms: Joi.number()
             .integer()
-            .messages({
-      "any.required": "Number of bedroom must be a number",
-    }),
-    squareFeet: Joi.number()
-            .integer()
-            .messages({
-      "any.required": "square feet must be a number",
-    }),
-    propertyType: Joi.string()
             .required()
             .messages({
-      "any.required": "Property type is required",
+      "any.required": "bedrooms is required",
     }),
-    listingType: Joi.string()
+    
+    regularPrice: Joi.number()
             .required()
             .messages({
-      "any.required": "Listing type is required",
+      "any.required": "regularPrice is required",
     }),
+    discountPrice: Joi.number()
+            .messages({
+      "any.required": "discountPrice is required",
+    }),
+    offer: Joi.boolean()
+            .required()
+            .messages({
+      "any.required": "offer is required",
+    }),
+    parking: Joi.boolean()
+            .required()
+            .messages({
+      "any.required": "parking is required",
+    }),
+    furnished: Joi.boolean()
+            .required()
+            .messages({
+      "any.required": "furnished is required",
+    }),
+    isFeatured: Joi.boolean()
+            .required()
+            .messages({
+      "any.required": "isFeatured is required",
+    }),
+    location: Joi.string()
+            .required()
+            .messages({
+      "any.required": "location is required",
+    }),
+    type: Joi.string()
+              .required()
+              .messages({
+                "any.required": "type is required"
+                }),
 
   });
   module.exports = propertySchema;

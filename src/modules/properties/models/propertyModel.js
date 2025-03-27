@@ -8,7 +8,12 @@ const Property = db.define(
             autoIncrement: true,
             primaryKey: true
         },
-        title: {
+        imageUrls: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+            allowNull: true,
+            defaultValue: [],
+          },
+        name: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -16,13 +21,34 @@ const Property = db.define(
             type: DataTypes.STRING,
             allowNull: false
         },
-        property_type: {
-            type: DataTypes.ENUM('land', 'office', 'apartment', 'house'),
-            defaultValue: 'house',
+        address: {
+            type: DataTypes.STRING,
             allowNull: false
         },
-        price: {
-            type: DataTypes.DECIMAL(12,2),
+        type: {
+            type: DataTypes.ENUM('sale', 'rent'),
+            defaultValue: 'sale',
+            allowNull: false
+        },
+        bedrooms: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
+        bathrooms: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
+        regularPrice: {
+            type: DataTypes.DECIMAL(16,2),
+            allowNull: false
+        },
+        discountPrice: {
+            type: DataTypes.DECIMAL(16,2),
+            allowNull: true
+        },
+        offer: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
             allowNull: false
         },
         status: {
@@ -30,41 +56,26 @@ const Property = db.define(
             defaultValue: 'available',
             allowNull: false
         },
-        listing_type: {
-            type: DataTypes.ENUM('sale', 'rent'),
-            defaultValue: 'sale',
+        parking: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
             allowNull: false
-
         },
-        bathroom: {
-            type: DataTypes.INTEGER,
-            allowNull: true
+        furnished: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+            allowNull: false
         },
-        bedroom: {
-            type: DataTypes.INTEGER,
-            allowNull: true
-
+        isFeatured: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+            allowNull: false
         },
-        square_feet: {
-            type: DataTypes.DECIMAL(8,2),
-            allowNull: true
-
-        },
-        address: {
+        location: {
             type: DataTypes.STRING,
             allowNull: false
-
-        },
-        city: {
-            type: DataTypes.STRING,
-            allowNull: false
-
-        },
-        state: {
-            type: DataTypes.STRING,
-            allowNull: false
-
         }
+
         // landlord: {
         //     type: DataTypes.UUID,
         //     allowNull: true,
