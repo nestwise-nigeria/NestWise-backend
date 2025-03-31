@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 //middlewares
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
 //connect allapi routes
