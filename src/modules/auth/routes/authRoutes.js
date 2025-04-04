@@ -1,9 +1,11 @@
 const express = require('express')
 const authControllers = require('../controllers/authControllers')
+const validateRequest = require('../../../middlewares/validateRequest')
+const authValidation = require('../../../validations/authValidation')
 
 
 const router = express.Router()
 
-router.post('/register', authControllers.registerUser)
+router.post('/register', validateRequest(authValidation.registerSchema), authControllers.registerUser)
 
 module.exports = router
