@@ -54,6 +54,27 @@ const registerSchema = Joi.object({
     }),
 });
 
+const loginSchema = Joi.object({
+    email: Joi.string()
+    .email({ tlds: { allow: false } }) 
+    .required()
+    .messages({
+      "string.email": "Invalid email format",
+      "any.required": "email is required",
+    }),
+    
+    password: Joi.string()
+    .min(6)
+    .max(30)
+    .required()
+    .messages({
+      "string.min": "password must be at least 6 characters",
+      "string.max": "password cannot exceed 30 characters",
+      "any.required": "password is required",
+    }),
+});
+
 module.exports = {
-    registerSchema
+    registerSchema,
+    loginSchema
 }
