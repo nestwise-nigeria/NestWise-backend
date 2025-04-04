@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const Property = require('../models/propertyModel');
+const Property = require('../../../models/propertyModel')
 const { error } = require('../../../utils/helpers');
 const create = async (data) => {
     try{
