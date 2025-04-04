@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const { error } = require('../../../utils/helpers')
 const User = require('../../../models/userModel')
+const { generateToken } = require('../../../utils/jwt')
 
 const newUser = async (firstname, lastname, email, phone, role, password) => {
 
@@ -22,7 +23,8 @@ const newUser = async (firstname, lastname, email, phone, role, password) => {
         if(!addUser){
             error(503, 'Service unavailable')
         }
-        return addUser
+        const token = generateToken(addUser)
+        return token
 
     }
     catch(err){
@@ -40,7 +42,9 @@ const loginUser = async (email, password) => {
         const isValidPassword = await bcrypt.compare(password, user.password)
         if(!isValidPassword) error(401, 'Invalid credentials')
 
-        return user
+        // return user
+        const token = generateToken(user)
+        return token
     }
     catch(err){
         error(err.statusCode || 500, err.message || 'Internal server error');
