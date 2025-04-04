@@ -30,6 +30,24 @@ const newUser = async (firstname, lastname, email, phone, role, password) => {
     }
 }
 
+const loginUser = async (email, password) => {
+    try{
+        //check if user account exist
+        const user = await User.findOne({ where: { email }})
+        if(!user) error(401, 'Invalid credentials')
+
+        //if user is found, proceed to validate password
+        const isValidPassword = await bcrypt.compare(password, user.password)
+        if(!isValidPassword) error(401, 'Invalid credentials')
+
+        return user
+    }
+    catch(err){
+        error(err.statusCode || 500, err.message || 'Internal server error');
+    }
+}
+
 module.exports = {
-    newUser
+    newUser,
+    loginUser
 }

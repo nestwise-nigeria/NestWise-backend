@@ -4,7 +4,7 @@ const registerUser = async(req, res) => {
     try{
         const { firstname, lastname, email, phone, role, password } = req.body
         const response = await authServices.newUser(firstname, lastname, email, phone, role, password);
-        if(!response)error(503, 'Service unavailable')
+        if(!response) error(503, 'Service unavailable')
 
         res.status(201).json({ success: true, message: 'User account created successfully', data: response})
     }
@@ -13,6 +13,21 @@ const registerUser = async(req, res) => {
     }
 }
 
+//login user
+const loginUser = async (req, res) => {
+    try{
+        const { email, password } = req.body
+        const response = await authServices.loginUser(email, password)
+        if(!response) error(503, 'Service unavailable')
+
+        res.status(200).json({ success: true, message: 'login succcessful', data: response})
+    }
+    catch(err){
+        res.status(err.statusCode).json({ success: false, message: err.message })
+    }
+}
+
 module.exports = {
-    registerUser
+    registerUser,
+    loginUser
 }
