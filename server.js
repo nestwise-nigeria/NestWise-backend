@@ -28,6 +28,10 @@ dbConnection
   .then(() => console.log('Models synchronized'))
   .catch((err) => console.error('Model synchronization failed:', err));
 
-app.listen(PORT, () => {
-    console.log(`App is listening on port: ${PORT} `);
-})
+// lambda will access the app in a different way
+
+// app.listen(PORT, () => {
+//    console.log(`App is listening on port: ${PORT} `);
+// })
+
+module.exports = app;
