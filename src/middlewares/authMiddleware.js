@@ -30,9 +30,8 @@ const authorize = async (req, res, next)=> {
         }
         const role = user.role
         if(role == 'renter'){
-            return res.status(403).json( { success: false, message: "Unauthorized"})
+            return res.status(403).json({ success: false, message: "Unauthorized"})
         }
-
         next();
     }
     catch(err){

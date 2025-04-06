@@ -14,7 +14,7 @@ router.get('/agent-properties',authMiddleware.authenticate, authMiddleware.autho
 router.get('/:id', getSingleProperty);
 router.get('/', getAllProperty);
 router.post('/', validateRequest(propertyValidator), authMiddleware.authenticate, authMiddleware.authorize, addProperty);
-router.put('/:id', updateSingleProperty);
+router.put('/:id', authMiddleware.authenticate, authMiddleware.authorize, updateSingleProperty);
 router.delete('/:id', deleteSingleProperty);
 
 module.exports = router
