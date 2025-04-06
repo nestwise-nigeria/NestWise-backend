@@ -172,30 +172,33 @@ const getAgentProperties = async ({ userId, name, description, location, bedroom
     }
 }
 
-const updateOne = async ({id, name, description, type,
-                        regularPrice, discountPrice, status, bathrooms, bedrooms,
-                        address, location, isFeatured, offer }) => {
+const updateOne = async ({ userId, id, name, description, type,
+    regularPrice, discountPrice, status, bathrooms, bedrooms,
+ address, location, isFeatured, offer, furnished, parking }) => {
         try{
             const query = {};
-            if(title) query.name = name;
+            if(name) query.name = name;
             if(description) query.description = description;
             if(type) query.type = type;
-            if(regularPrice) query.price = regularPrice;
-            if(discountPrice) query.price = discountPrice;
+            if(regularPrice) query.regularPrice = regularPrice;
+            if(discountPrice) query.discountPrice = discountPrice;
             if(status) query.status = status;
-            if(bathrooms) query.bathroom = bathrooms;
-            if(bedrooms) query.bedroom = bedrooms;
-            if(squareFeet) query.square_feet = squareFeet;
+            if(bathrooms) query.bathrooms = bathrooms;
+            if(bedrooms) query.bedrooms = bedrooms;
             if(address) query.address = address;
             if(location) query.location = location;
-            if(isFeatured) query.isFeatured = isFeatured;
-            if(offer) query.offer = offer
+            if (typeof isFeatured !== "undefined") query.isFeatured = isFeatured;
+            if(typeof offer !== "undefined") query.offer = offer;
+            if(typeof furnished !== "undefined") query.furnished = furnished;
+            if(typeof parking !== "undefined") query.parking = parking
 
             query.updatedAt = new Date();
 
             const property = await Property.findOne({ where: { id }});
 
             if(!property || property === null)error(404, 'Property Not Found!');
+
+            if(property.authorId !== userId)error(403, "Unauthorized!, Sorry you do not have access to this resources")
 
             const updatedProperty = await Property.update(query, {
                 where: { id },

@@ -53,13 +53,14 @@ const getAgentProperties = async (req, res) => {
 const updateSingleProperty = async (req, res) => {
     try{
         const id = req.params.id;
+        const userId = req.user.id
         const { name, description, type,
-            regularPrice, discountPrice, status, bathrooms, bedrooms, address, location, isFeatured
+            regularPrice, discountPrice, status, bathrooms, bedrooms, address, location, isFeatured, offer, furnished, parking
          } = req.body
 
-         const updatedProperty = await propertyService.updateOne({ id, name, description, type,
+         const updatedProperty = await propertyService.updateOne({ userId, id, name, description, type,
                                                                 regularPrice, discountPrice, status, bathrooms, bedrooms,
-                                                             address, location, isFeatured, offer });
+                                                             address, location, isFeatured, offer, furnished, parking });
         
         res.status(200).json({ success: true, message: 'property updated successfully', data: updatedProperty });
 
