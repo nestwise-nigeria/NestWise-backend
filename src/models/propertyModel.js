@@ -1,5 +1,6 @@
 const db = require('../database/db');
 const { DataTypes } = require('sequelize');
+const User = require('./userModel')
 const Property = db.define(
     'Property',
     {
@@ -74,27 +75,19 @@ const Property = db.define(
         location: {
             type: DataTypes.STRING,
             allowNull: false
-        }
-
-        // landlord: {
-        //     type: DataTypes.UUID,
-        //     allowNull: true,
-        //     // references: {
-        //     // model: User,
-        //     // key: "id",
-        //     // },
-
-        // },
-        // agent: {
-        //     type: DataTypes.UUID,
-        //     allowNull: true,
-        //     // references: {
-        //     // model: User,
-        //     // key: "id",
-        //     // },
-
-        // }
+        },
+        authorId: {
+            type: DataTypes.UUID,
+            allowNull: false,
+            references: {
+              model: 'Users',
+              key: 'id'
+            }
+          }
     }
 )
+
+// Define the association
+Property.belongsTo(User, { foreignKey: "authorId", as: "author" });
 
 module.exports = Property
