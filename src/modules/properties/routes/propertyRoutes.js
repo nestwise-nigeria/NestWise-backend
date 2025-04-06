@@ -6,13 +6,14 @@ const { addProperty,
     getAllProperty, 
     getSingleProperty, 
     updateSingleProperty, 
-    deleteSingleProperty } = require('../controllers/propertyControllers');
+    deleteSingleProperty,
+    getAgentProperties } = require('../controllers/propertyControllers');
 
 const router = express.Router();
-
+router.get('/agent-properties',authMiddleware.authenticate, authMiddleware.authorize, getAgentProperties)
 router.get('/:id', getSingleProperty);
 router.get('/', getAllProperty);
-router.post('/', validateRequest(propertyValidator), authMiddleware.authenticate, addProperty);
+router.post('/', validateRequest(propertyValidator), authMiddleware.authenticate, authMiddleware.authorize, addProperty);
 router.put('/:id', updateSingleProperty);
 router.delete('/:id', deleteSingleProperty);
 
