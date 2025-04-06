@@ -1,6 +1,6 @@
 const Joi = require('joi')
 
-const propertySchema = Joi.object({
+const createropertySchema = Joi.object({
     name: Joi.string()
             .min(5)
             .required()
@@ -75,4 +75,27 @@ const propertySchema = Joi.object({
                 }),
 
   });
-  module.exports = propertySchema;
+
+//update validator validator
+const updatePropertySchema = Joi.object({
+  name: Joi.string().min(3).max(255).optional(),
+  description: Joi.string().optional(),
+  imageUrls: Joi.array().optional(),
+  address: Joi.string().optional(), // Ensure URL is valid
+  bathrooms: Joi.number().optional(),
+  bedrooms: Joi.number().optional(),
+  regularPrice: Joi.number().optional(),
+  discountPrice: Joi.number().optional(),
+  offer: Joi.boolean().optional(),
+  parking: Joi.boolean().optional(),
+  furnished: Joi.boolean().optional(),
+  isFeatured: Joi.boolean().optional(),
+  location: Joi.string().optional(),
+  type: Joi.string().optional()
+});
+
+
+  module.exports = {
+    createropertySchema,
+    updatePropertySchema
+  }
