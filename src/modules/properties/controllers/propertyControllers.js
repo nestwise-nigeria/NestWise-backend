@@ -72,8 +72,9 @@ const updateSingleProperty = async (req, res) => {
 
 const deleteSingleProperty = async (req, res) => {
     const id = req.params.id;
+    const userId = req.user.id
     try{
-        const deleted = await propertyService.deleteOne(id);
+        const deleted = await propertyService.deleteOne(id, userId);
 
         res.status(200).json({ success: true, messsage: 'Item deleted successfully', data: deleted });
     }

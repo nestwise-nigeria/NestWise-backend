@@ -212,12 +212,14 @@ const updateOne = async ({ userId, id, name, description, type,
         }
 }
 
-const deleteOne = async (id) => {
+const deleteOne = async (id, userId) => {
     try{
          //check if item is in the database
         const property = await Property.findOne({ where: { id }});
 
         if(!property || property === null)error(404, 'Property Not Found!');
+
+        if(property.authorId !== userId) error(403, "Unauthorized!, you do not have access to this resource")
 
         const deletedData = await Property.destroy({ where: { id}});
 

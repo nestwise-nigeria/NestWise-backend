@@ -15,6 +15,6 @@ router.get('/:id', getSingleProperty);
 router.get('/', getAllProperty);
 router.post('/', validateRequest(propertyValidator.createropertySchema), authMiddleware.authenticate, authMiddleware.authorize, addProperty);
 router.put('/:id', validateRequest(propertyValidator.updatePropertySchema), authMiddleware.authenticate, authMiddleware.authorize, updateSingleProperty);
-router.delete('/:id', deleteSingleProperty);
+router.delete('/:id',authMiddleware.authenticate, authMiddleware.authorize, deleteSingleProperty);
 
 module.exports = router
