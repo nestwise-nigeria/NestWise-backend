@@ -37,18 +37,18 @@ const getSingleProperty = async(req, res) => {
     }
 }
 
-// const getAgentProperties = async (req, res) => {
-//     try{
-//         const userId = req.user.id
-//         if(!userId) error(403, 'Unauthorized')
-//         const properties = await propertyService.getAgentProperties({ userId });
+const getAgentProperties = async (req, res) => {
+    try{
+        const userId = req.user.id
+        console.log(userId)
+        const properties = await propertyService.getAgentProperties({ userId });
 
-//         res.status(200).json({ success: true, message: 'properties fetched successfully', data: properties })
-//     }
-//     catch(err){
-//         res.status(err.statusCode).json({ success: false, message: err.message })
-//     }
-// }
+        res.status(200).json({ success: true, message: 'properties fetched successfully', data: properties })
+    }
+    catch(err){
+        res.status(err.statusCode).json({ success: false, message: err.message })
+    }
+}
 
 const updateSingleProperty = async (req, res) => {
     try{
@@ -85,7 +85,7 @@ module.exports = {
     addProperty,
     getAllProperty,
     getSingleProperty,
-    // getAgentProperties,
+    getAgentProperties,
     updateSingleProperty,
     deleteSingleProperty
 }

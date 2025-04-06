@@ -117,60 +117,60 @@ const getOne = async (id) => {
     }
 }
 
-//get Agents/agency/landlord's properties
-// const getAgentProperties = async ({ userId, name, description, location, bedrooms, min, max, type, page = 1,
-//     perPage = 10, }) => {
-//     try{
-//         const where = {}
-//         if(name) where.name = name;
-//         if(description) where.description = { [Op.iLike]: `%${description}%` };
-//         if(location) where.location = { [Op.iLike]: `%${location}%` };
-//         if(bedrooms) where.bedrooms = bedrooms;
-//         if (min && max) {
-//             where.regularPrice = { [Op.between]: [min, max] };
-//           } else if (min) {
-//             where.regularPrice = { [Op.gte]: min };
-//           } else if (max) {
-//             where.regularPrice = { [Op.lte]: max };
-//           };
-//         if(type) where.type = type;
-//         if(userId) where.userId = userId;
+// get Agents/agency/landlord's properties
+const getAgentProperties = async ({ userId, name, description, location, bedrooms, min, max, type, page = 1,
+    perPage = 10, }) => {
+    try{
+        const where = {}
+        if(name) where.name = name;
+        if(description) where.description = { [Op.iLike]: `%${description}%` };
+        if(location) where.location = { [Op.iLike]: `%${location}%` };
+        if(bedrooms) where.bedrooms = bedrooms;
+        if (min && max) {
+            where.regularPrice = { [Op.between]: [min, max] };
+          } else if (min) {
+            where.regularPrice = { [Op.gte]: min };
+          } else if (max) {
+            where.regularPrice = { [Op.lte]: max };
+          };
+        if(type) where.type = type;
+        where.authorId = userId;
 
-//     const sortOption = [
-//             ['isFeatured', 'DESC'],  // Featured properties come first
-//             ['createdAt', 'DESC']     // Then sort by newest first
-//           ];
+    const sortOption = [
+            ['isFeatured', 'DESC'],  // Featured properties come first
+            ['createdAt', 'DESC']     // Then sort by newest first
+          ];
 
-//           // Pagination
-//     const limit = parseInt(perPage, 10);
-//     const offset = (parseInt(page, 10) - 1) * limit;
+          // Pagination
+    const limit = parseInt(perPage, 10);
+    const offset = (parseInt(page, 10) - 1) * limit;
 
-//         const properties = await Property.findAndCountAll({
-//             where,
-//             order: sortOption,
-//             limit,
-//             offset,
-//         });
+        const properties = await Property.findAndCountAll({
+            where,
+            order: sortOption,
+            limit,
+            offset,
+        });
 
-//         if (!properties.rows.length) {
-//             error(404, 'No prperty found');
-//           }
+        if (!properties.rows.length) {
+            error(404, 'No property found');
+          }
       
-//           const response =  {
-//             total: properties.count,
-//             page: parseInt(page, 10),
-//             perPage: limit,
-//             totalPages: Math.ceil(properties.count / limit),
-//             properties: properties.rows,
-//           };
+          const response =  {
+            total: properties.count,
+            page: parseInt(page, 10),
+            perPage: limit,
+            totalPages: Math.ceil(properties.count / limit),
+            properties: properties.rows,
+          };
 
 
-//         return (response);
-//     }
-//     catch(err){
-//         error(err.statusCode || 500, err.message || 'Internal server error');
-//     }
-// }
+        return (response);
+    }
+    catch(err){
+        error(err.statusCode || 500, err.message || 'Internal server error');
+    }
+}
 
 const updateOne = async ({id, name, description, type,
                         regularPrice, discountPrice, status, bathrooms, bedrooms,
@@ -229,6 +229,7 @@ module.exports = {
     create,
     getAll,
     getOne,
+    getAgentProperties,
     updateOne,
     deleteOne
 }
