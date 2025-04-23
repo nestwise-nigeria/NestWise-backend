@@ -50,14 +50,9 @@ const User = db.define(
       },
     },
     password: {
+      // hashed password
         type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          len: {
-            args: [6, 30],
-            msg: 'Password must be between 6 and 30 characters long',
-          },
-        },
+        allowNull: false,        
     },
   },
 );
