@@ -4,8 +4,10 @@ const router = express.Router()
 const authroute = require('./src/modules/auth/routes/authRoutes')
 const propertyRoute = require('./src/modules/properties/routes/propertyRoutes')
 
-router.get('/', () => {
-    console.log('api route reached')
+// Home route
+// This route will be used to check if the server is running and to get the API version
+router.get('/', (req, res) => {
+    res.status(200).json({ success: true, message: 'Welcome to netwise API', data: { version: '1.0.0' } })
 });
 
 router.use('/auth', authroute)
