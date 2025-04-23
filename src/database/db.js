@@ -7,13 +7,12 @@ const dbConnection = new Sequelize(PG_DATABASE, PG_USERNAME, PG_PASSWORD, {
   host: PG_HOST,
   port: PG_PORT,
   dialect: 'postgres',
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: true, // Ensure proper SSL validation
-    },
-  },
+  dialectOptions: process.env.NODE_ENV === 'production'
+      // disables SSL for local/dev, but enables it for production
+      ? { ssl: { require: true, rejectUnauthorized: false } }
+      : {},
+    logging: false,
 }
 )
 
-  module.exports = dbConnection;
+module.exports = dbConnection;
