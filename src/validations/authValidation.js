@@ -52,6 +52,16 @@ const registerSchema = Joi.object({
       "any.only": "passwords do not match",
       "any.required": "Confirm password is required",
     }),
+
+    //extended for agents
+    // nationality, dob, idType, idNumber, idPicture
+    nationality: Joi.string().optional(),
+    dob: Joi.date().optional(),
+    idType: Joi.string().valid('NIN', 'PVC', 'passport').optional(),
+    idNumber: Joi.string().optional(),
+    idPicture: Joi.string().optional(),
+
+    
 });
 
 const loginSchema = Joi.object({

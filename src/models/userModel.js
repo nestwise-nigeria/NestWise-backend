@@ -37,8 +37,28 @@ const User = db.define(
         type: DataTypes.STRING,
         allowNull: false,
     },
+    nationality: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    dob: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    idType: {
+      type: DataTypes.ENUM('NIN', 'PVC', 'passport'),
+      allowNull: true,
+    },
+    idNumber: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    idPicture: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+
   },
 );
-
 module.exports = User;
   
