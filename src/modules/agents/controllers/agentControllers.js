@@ -1,7 +1,8 @@
 const agentServices = require('../services/agentServices')
 const getAllAgents = async (req, res) => {
     try{
-        const agents = await agentServices.getAll();
+        const { name, page } = req.query
+        const agents = await agentServices.getAll( { name, page });
         res.status(200).json({ success: true, data: agents });
     }
 
