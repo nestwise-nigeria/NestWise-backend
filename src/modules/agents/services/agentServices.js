@@ -1,6 +1,7 @@
 const { Op } = require("sequelize");
 const { error } = require('../../../utils/helpers')
 const User = require('../../../models/userModel')
+const Property = require('../../../models/propertyModel')
 const getAll = async ({ name, page = 1, perPage = 10, }) => {
     try{
         const where = {}
@@ -43,19 +44,23 @@ const getAll = async ({ name, page = 1, perPage = 10, }) => {
 const get = async (id) => {
     try{
         const agentId = id
-        const agent = await User.findOne( {where: { id: agentId }} );
+        const agent = await User.findOne( 
+            {
+                where: { id: agentId },
+                attributes: ["id", "firstname", "lastname", "email", "phone"],
+
+            include: [
+                {
+                    model: Property,
+                    as: "properties",
+                }
+            ]
+        } );
 
         if(!agent) error(404, "Agent not found!")
 
-            const returnedAgent = {
-                id: agent.id,
-                firstname: agent.firstname,
-                lastname: agent.lastname,
-                email: agent.email,
-                phone: agent.phone,
-            }
             
-        return returnedAgent
+        return agent
     }
     catch(err){
         error(err.statusCode || 500, err.message || 'Internal server error');

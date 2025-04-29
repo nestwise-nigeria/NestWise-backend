@@ -3,6 +3,7 @@ const cors = require('cors');
 require('dotenv').config();
 const router = require('./router');
 const dbConnection = require('./src/database/db')
+const asssociateModels = require('./src/models/index')
 
 const PORT = process.env.PORT || 3000;
 
@@ -22,11 +23,15 @@ dbConnection
   .then(() => console.log('Database connected'))
   .catch((err) => console.error('Database connection failed:', err));
 
+  //associate models
+  asssociateModels()
+
 // synchronize models
-dbConnection
+// dbConnection
   .sync({ alter: true })
   .then(() => console.log('Models synchronized'))
   .catch((err) => console.error('Model synchronization failed:', err));
+
 
 app.listen(PORT, () => {
     console.log(`App is listening on port: ${PORT} `);
