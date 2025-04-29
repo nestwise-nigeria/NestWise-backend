@@ -27,7 +27,7 @@ dbConnection
   asssociateModels()
 
 // synchronize models
-// dbConnection
+dbConnection
   .sync({ alter: true })
   .then(() => console.log('Models synchronized'))
   .catch((err) => console.error('Model synchronization failed:', err));
