@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const { error } = require('../../../utils/helpers')
 const User = require('../../../models/userModel')
 const { generateToken } = require('../../../utils/jwt')

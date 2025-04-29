@@ -1,6 +1,5 @@
 const db = require('../database/db');
 const { DataTypes } = require('sequelize');
-const User = require('./userModel')
 const Property = db.define(
     'Property',
     {
@@ -86,8 +85,4 @@ const Property = db.define(
           }
     }
 )
-
-// Define the association
-Property.belongsTo(User, { foreignKey: "authorId", as: "author" });
-
 module.exports = Property
