@@ -14,6 +14,32 @@ const create = async ({ name, maxProperties, duration, price }) => {
     }
 }
 
+const getAll = async () => {
+    try{
+        const plans = await Plan.findAll()
+        if(!plans) error(404, 'No Plan Found');
+
+        return plans
+    }
+    catch(err){
+        error(err.statusCode || 500, err.message || 'Internal server error')
+    }
+}
+
+const get = async (id) => {
+    try{
+        const plan = await Plan.findOne({ where: { id }})
+        if(!plan) error(404, "Plan not found")
+        
+        return plan
+    }
+    catch(err){
+        error(err.statusCode || 500, err.message || "Internal server error");
+    }
+}
+
 module.exports = {
-    create
+    create,
+    getAll,
+    get
 }

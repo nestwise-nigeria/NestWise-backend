@@ -7,5 +7,7 @@ const planControllers = require('../controllers/planControllers')
 const router = express.Router()
 
 router.post('/', validateRequest(createPlanSchema), planControllers.post)
+router.get('/', planControllers.getAll)
+router.get('/:id', planControllers.get)
 
 module.exports = router

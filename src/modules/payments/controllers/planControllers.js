@@ -7,7 +7,7 @@ const post = async (req, res) => {
         if(!name || !maxProperties || !duration || !price) error(403, 'All credentials are required')
         const newPlan = await planServices.create({ name, maxProperties, duration, price })
 
-        if(!newPlan) error(500, 'Unable to create plan, please try after some time!')
+        if(!newPlan) error(503, 'Service Unavailable')
         
         res.status(201).json({ success: true, data: newPlan });
     }
@@ -16,9 +16,15 @@ const post = async (req, res) => {
     }
 }
 
-const get = (req, res) => {
+const get = async (req, res) => {
     try{
+        const id = req.params.id
+        if(!id) error(400, 'id is required')
 
+        const plan = await planServices.get(id)
+        if(!plan) error(503, 'Service Unavailable')
+
+        res.status(200).json({ success: true, data: plan })
     }
     catch(err){
         res.status(err.statusCode).json({ success: false, message: err.message})
@@ -29,7 +35,10 @@ const get = (req, res) => {
 const getAll = async (req, res) => {
     try{
 
-        const plans = await Plan.getAll()
+        const plans = await planServices.getAll()
+        if(!plans) error(503, 'Service Unavailable')
+
+        res.status(200).json({ success: true, data: plans })
     }
     catch(err){
         res.status(err.statusCode).json({ success: false, message: err.message})
