@@ -1,0 +1,21 @@
+{
+    "sqltools.connections": [
+        {
+            "pgOptions": {
+                "ssl": {
+                    "rejectUnauthorized": true,
+                    "passphrase": "nestwise_Nigeria"
+                }
+            },
+            "previewLimit": 50,
+            "server": "dpg-cvle1ure5dus73ac6n2g-a.oregon-postgres.render.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "nestwise",
+            "database": "nestwise",
+            "username": "nestwise_user",
+            "password": "AbRtQ7BXaPs5zBwsOUQW2twlrt1TJhVg",
+            "group": "nestwise"
+        }
+    ]
+}

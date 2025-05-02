@@ -1,6 +1,6 @@
 const Joi = require('joi')
 
-const createropertySchema = Joi.object({
+const createPropertySchema = Joi.object({
     name: Joi.string()
             .min(5)
             .required()
@@ -96,6 +96,6 @@ const updatePropertySchema = Joi.object({
 
 
   module.exports = {
-    createropertySchema,
+    createPropertySchema,
     updatePropertySchema
   }
