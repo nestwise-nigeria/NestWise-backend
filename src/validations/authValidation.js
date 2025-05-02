@@ -1,37 +1,51 @@
-const Joi = require('joi').extend(require('joi-phone-number'));
+const Joi = require('joi')
 
 const registerSchema = Joi.object({
-  firstname: Joi.string().min(3).max(30).required().messages({
-    "string.min": "firstname cannot be less than 5 characters",
-    "string.max": "firstname cannot be more than 30 characters",
-    "any.required": "firstname is required",
-  }),
-  lastname: Joi.string().min(3).max(30).required().messages({
-    "string.min": "lastname cannot be less than 3 characters",
-    "string.max": "lastname cannot be more than 30 characters",
-    "any.required": "lastname is required",
-  }),
-  email: Joi.string()
-    .email({ tlds: { allow: false } })
+  firstname: Joi.string()
+            .min(3)
+            .max(30)
+            .required()
+            .messages({
+                "string.min": "firstname cannot be less than 5 characters",
+                "string.max": "firstname cannot be more than 30 characters",
+                "any.required": "firstname is required",
+    }),
+
+  lastname: Joi.string()
+            .min(3)
+            .max(30)
+            .required()
+            .messages({
+                "string.min": "lastname cannot be less than 3 characters",
+                "string.max": "lastname cannot be more than 30 characters",
+                "any.required": "lastname is required",
+    }),
+    email: Joi.string()
+    .email({ tlds: { allow: false } }) 
     .required()
     .messages({
       "string.email": "Invalid email format",
       "any.required": "email is required",
     }),
-  role: Joi.string().required().messages({
-    "any.required": "role is required",
-  }),
-  phone: Joi.string()
-    .phoneNumber({ defaultCountry: "NG", format: "e164" })
+    role: Joi.string()
     .required()
     .messages({
-      "any.required": "phone is required", // e.g. +2347012345678
-    }),
-  password: Joi.string().min(6).max(30).required().messages({
-    "string.min": "password must be at least 6 characters",
-    "string.max": "password cannot exceed 30 characters",
-    "any.required": "password is required",
-  }),
+      "any.required": "role is required"
+}),
+phone: Joi.string()
+    .required()
+    .messages({
+      "any.required": "phone is required"
+}),
+password: Joi.string()
+.min(6)
+.max(30)
+.required()
+.messages({
+  "string.min": "password must be at least 6 characters",
+  "string.max": "password cannot exceed 30 characters",
+  "any.required": "password is required",
+}),
   confirmPassword: Joi.string()
     .valid(Joi.ref("password")) // Must match the password field
     .required()

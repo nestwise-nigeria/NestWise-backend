@@ -1,7 +1,5 @@
 const db = require('../database/db');
-const { DataTypes } = require('sequelize')
-const validator = require('validator');
-
+const { DataTypes } = require('sequelize');
 
 const User = db.define(
   'User',
@@ -22,32 +20,16 @@ const User = db.define(
     phone: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        isValidPhone(value) {
-          if (!validator.isMobilePhone(value, 'en-NG', { strictMode: true })) {
-            throw new Error('Invalid phone number, valid Nigerian phone no format: +2348012345678');
-          }
-        }
-      }
     },
     role: {
-        type: DataTypes.ENUM('landlord', 'agent', 'agency', 'renter'),
-        defaultValue: 'renter',
-        allowNull: false,
-        validate: {
-          isIn: {
-            args: [['landlord', 'agent', 'agency', 'renter']],
-            msg: 'Role must be one of the following: landlord, agent, agency, renter',
-          },
-        },
+      type: DataTypes.ENUM('landlord', 'agent', 'agency', 'renter'),
+      defaultValue: 'renter',
+      allowNull: false,
       },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      validate: {
-        isEmail: true, 
-      },
     },
     password: {
       // hashed password
