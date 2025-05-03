@@ -4,6 +4,7 @@ const router = express.Router()
 const authroute = require('./src/modules/auth/routes/authRoutes')
 const propertyRoute = require('./src/modules/properties/routes/propertyRoutes')
 const agentRoute = require('./src/modules/agents/routes/agentRoutes')
+const planRoute = require('./src/modules/payments/routes/planRoutes')
 
 // Home route
 // This route will be used to check if the server is running and to get the API version
@@ -14,6 +15,7 @@ router.get('/', (req, res) => {
 router.use('/auth', authroute)
 router.use('/property', propertyRoute);
 router.use('/agents', agentRoute);
+router.use('/plan', planRoute)
 
 
 module.exports = router

@@ -1,4 +1,5 @@
-const Joi = require('joi')
+const Joi = require('joi');
+const { update } = require('../modules/payments/controllers/planControllers');
 
 const createPlanSchema = Joi.object({
     name: Joi.string()
@@ -24,6 +25,15 @@ const createPlanSchema = Joi.object({
 
   });
 
+
+const updatePlanSchema = Joi.object({
+        name: Joi.string().optional(),
+        duration: Joi.number().optional(),
+        maxProperties: Joi.number().optional(),
+        price: Joi.number().optional(),
+})
+
 module.exports = {
-    createPlanSchema
+    createPlanSchema,
+    updatePlanSchema
 }

@@ -38,8 +38,31 @@ const get = async (id) => {
     }
 }
 
+const update = async ({ id, name, maxProperties, price, duration }) => {
+    try{
+        const query = {}
+        if(name) query.name = name
+        if(maxProperties) query.maxProperties = maxProperties
+        if(price) query.price = price
+        if(duration) query.duration = duration
+
+        const plan = await Plan.findOne({ where: { id }})
+        if(!plan) error(404, 'Plan not found')
+        
+        updatedPlan = Plan.update(query, {
+            where: { id },
+            returning: true
+        })
+        return updatedPlan
+    }
+    catch(err){
+        error(err.statusCode || 500, err.message || 'Internal server error')
+    }
+}
+
 module.exports = {
     create,
     getAll,
-    get
+    get,
+    update
 }

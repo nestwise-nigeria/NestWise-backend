@@ -1,7 +1,7 @@
 const { error } = require('../../../utils/helpers')
 const planServices = require('../services/planServices')
 // create plans 
-const post = async (req, res) => {
+const createPlan = async (req, res) => {
     try{
         const { name, maxProperties, duration, price } = req.body;
         if(!name || !maxProperties || !duration || !price) error(403, 'All credentials are required')
@@ -16,7 +16,7 @@ const post = async (req, res) => {
     }
 }
 
-const get = async (req, res) => {
+const getPlan = async (req, res) => {
     try{
         const id = req.params.id
         if(!id) error(400, 'id is required')
@@ -32,7 +32,7 @@ const get = async (req, res) => {
 
 }
 
-const getAll = async (req, res) => {
+const getAllPlan = async (req, res) => {
     try{
 
         const plans = await planServices.getAll()
@@ -46,9 +46,16 @@ const getAll = async (req, res) => {
 
 }
 
-const update = (req, res) => {
+const updatePlan = async (req, res) => {
     try{
+        const id = req.params.id
+        const { name, maxProperties, price, duration } = req.body
+        if(!id) error(400, 'id is required')
+        
+        const updatedPlan = planServices.update({ id, name, maxProperties, price, duration })
+        if(!updatedPlan) error(503, 'Service Unavailable')
 
+        res.status(200).json({ success: true, data: updatedPlan })
     }
     catch(err){
         res.status(err.statusCode).json({ success: false, message: err.message})
@@ -56,7 +63,7 @@ const update = (req, res) => {
 
 }
 
-const deleteOne = (req, res) => {
+const deletePlan = (req, res) => {
     try{
 
     }
@@ -67,10 +74,10 @@ const deleteOne = (req, res) => {
 }
 
 module.exports = {
-    post,
-    get,
-    getAll,
-    update,
-    deleteOne
+    createPlan,
+    getAllPlan,
+    getPlan,
+    updatePlan,
+    deletePlan
 }
 

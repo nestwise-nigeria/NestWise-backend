@@ -1,13 +1,15 @@
 const express = require('express')
 const validateRequest = require('../../../middlewares/validateRequest')
-const { createPlanSchema } = require('../../../validations/planValidation')
+const { createPlanSchema, updatePlanSchema } = require('../../../validations/planValidation')
 const planControllers = require('../controllers/planControllers')
 
 
 const router = express.Router()
 
-router.post('/', validateRequest(createPlanSchema), planControllers.post)
-router.get('/', planControllers.getAll)
-router.get('/:id', planControllers.get)
+router.post('/', validateRequest(createPlanSchema), planControllers.createPlan)
+router.get('/', planControllers.getAllPlan)
+router.get('/:id', planControllers.getPlan)
+router.put('/:id', validateRequest(updatePlanSchema), planControllers.updatePlan)
+router.delete('/:id', planControllers.deletePlan)
 
 module.exports = router
