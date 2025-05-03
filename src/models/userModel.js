@@ -56,6 +56,10 @@ const User = db.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    profilePicture: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
 
   },
 );

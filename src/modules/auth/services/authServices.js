@@ -3,7 +3,7 @@ const { error } = require('../../../utils/helpers')
 const User = require('../../../models/userModel')
 const { generateToken } = require('../../../utils/jwt')
 
-const newUser = async (firstname, lastname, email, phone, role, password, nationality, dob, idType, idNumber, idPicture) => {
+const newUser = async (firstname, lastname, email, phone, role, password, nationality, dob, idType, idNumber, idPicture, profilePicture) => {
 
     try{
         const existingUser = await User.findOne( { where: { email }})
@@ -22,7 +22,8 @@ const newUser = async (firstname, lastname, email, phone, role, password, nation
              dob,
             idType,
             idNumber,
-            idPicture
+            idPicture,
+            profilePicture
         })
 
         if(!addUser){

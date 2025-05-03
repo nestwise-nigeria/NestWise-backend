@@ -29,6 +29,7 @@ const getAll = async ({ name, page = 1, perPage = 10, }) => {
             lastname: agent.lastname,
             email: agent.email,
             phone: agent.phone,
+            picture: agent.profilePicture
         }));
 
         return {
@@ -47,7 +48,7 @@ const get = async (id) => {
         const agent = await User.findOne( 
             {
                 where: { id: agentId },
-                attributes: ["id", "firstname", "lastname", "email", "phone"],
+                attributes: ["id", "firstname", "lastname", "email", "phone", "profilePicture"],
 
             include: [
                 {
