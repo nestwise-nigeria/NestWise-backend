@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs')
 const { error } = require('../../../utils/helpers')
 const User = require('../../../models/userModel')
+const Plan = require('../../../models/planModel')
+const Subscription = require('../../../models/Subscription')
 const { generateToken } = require('../../../utils/jwt')
 
 const newUser = async (firstname, lastname, email, phone, role, password, nationality, dob, idType, idNumber, idPicture) => {
@@ -27,6 +29,22 @@ const newUser = async (firstname, lastname, email, phone, role, password, nation
 
         if(!addUser){
             error(503, 'Service unavailable')
+        }
+        //assign free plan to agents upon creation
+        // check if newly created user is an agent
+        if(addUser.role != 'renter'){
+            const plan = await Plan.findOne({ where: { price: 0 }});
+            const startDate = new Date();
+            const endDate = new Date(startDate);
+            endDate.setDate(endDate.getDate() + plan.duration);
+
+            await Subscription.create({
+            agentId: addUser.id,
+            planId: plan.id,
+            startDate,
+            endDate,
+            isActive: true,
+            });
         }
         const token = generateToken(addUser)
         return token
