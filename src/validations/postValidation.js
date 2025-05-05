@@ -7,19 +7,18 @@ const createPostSchema = Joi.object({
             .messages({
       "any.required": "title is required",
     }),
-    post: Joi.string()
+    body: Joi.string()
             .min(15)
             .required()
             .messages({
       "any.required": "post is required",
     }),
-
-  });
+ });
 
 //update validator validator
 const updatePostSchema = Joi.object({
   title: Joi.string().min(3).max(255).optional(),
-  post: Joi.string().optional(),
+  body: Joi.string().optional(),
 });
 
 

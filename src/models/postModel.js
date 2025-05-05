@@ -8,8 +8,7 @@ const Post = db.define(
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
-        },
-       
+        }, 
         title: {
             type: DataTypes.STRING,
             allowNull: false
@@ -18,11 +17,7 @@ const Post = db.define(
             type: DataTypes.STRING,
             allowNull: false
         },
-        status: {
-            type: DataTypes.ENUM('draft', 'published'),
-            defaultValue: 'draft',
-            allowNull: false
-        },
+     
         authorId: {
             type: DataTypes.UUID,
             allowNull: false,

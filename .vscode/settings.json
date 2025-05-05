@@ -8,14 +8,14 @@
                 }
             },
             "previewLimit": 50,
-            "server": "dpg-cvle1ure5dus73ac6n2g-a.oregon-postgres.render.com",
+            "server": "dpg-d09njnbe5dus73btrdig-a.oregon-postgres.render.com",
             "port": 5432,
             "driver": "PostgreSQL",
-            "name": "nestwise",
-            "database": "nestwise",
-            "username": "nestwise_user",
-            "password": "AbRtQ7BXaPs5zBwsOUQW2twlrt1TJhVg",
-            "group": "nestwise"
+            "name": "nestwisehomes",
+            "database": "nestwisehomes",
+            "username": "nestwisehomes_user",
+            "password": "OgjntpszK9li9fWEQ69O3h8svxLYu3PH",
+            "group": "nestwisehomes"
         }
     ]
 }

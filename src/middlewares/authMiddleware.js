@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const  User  = require('../models/userModel'); // Ensure the correct path
+const  User  = require('../models/userModel'); // 
 
 const authenticate = async (req, res, next) => {
     try {
@@ -37,11 +37,9 @@ const authorize = async (req, res, next)=> {
     catch(err){
         return res.status(500).json({ success: false, message: "Internal server error" });
     }
-    
-}
-
-
+ }
+ 
 module.exports = {
     authenticate,
-    authorize
+    authorize,
 }

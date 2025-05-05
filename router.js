@@ -3,11 +3,8 @@ const express = require('express')
 const router = express.Router()
 const authroute = require('./src/modules/auth/routes/authRoutes')
 const propertyRoute = require('./src/modules/properties/routes/propertyRoutes')
-<<<<<<< HEAD
 const postRoute = require('./src/modules/post/routes/postRoutes')
-=======
 const agentRoute = require('./src/modules/agents/routes/agentRoutes')
->>>>>>> 16fea8e91d8ededb66fe08fe39228ef15c5b3505
 
 // Home route
 // This route will be used to check if the server is running and to get the API version
@@ -17,11 +14,8 @@ router.get('/', (req, res) => {
 
 router.use('/auth', authroute)
 router.use('/property', propertyRoute);
-<<<<<<< HEAD
 router.use('/post', postRoute);
-=======
 router.use('/agents', agentRoute);
->>>>>>> 16fea8e91d8ededb66fe08fe39228ef15c5b3505
 
 
 module.exports = router

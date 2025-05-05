@@ -10,7 +10,6 @@ const { addPost,
     getUserPosts } = require('../controllers/postControllers');
 
 const router = express.Router();
-router.get('/user-post',authMiddleware.authenticate, authMiddleware.authorize, getUserPosts)
 router.get('/:id', getSinglePost);
 router.get('/', getAllPost);
 

@@ -5,13 +5,12 @@ const { error } = require('../../../utils/helpers');
 
 const create = async (data) => {
     try {
-        if (!data.title || !data.post || !data.authorId) {
-            error(400, 'Title, content, and author ID are required');
+        if (!data.title || !data.body) {
+            error(400, 'title, post, and author ID are required');
         }
-
         const newPost = await Post.create({
             title: data.title,
-            post: data.post,
+            body: data.body,
             authorId: data.authorId
         });
 
@@ -34,7 +33,7 @@ const getAll = async ({
     try {
         const where = {};
         if (title) where.title = { [Op.iLike]: `%${title}%` };
-        if (content) where.post = { [Op.iLike]: `%${content}%` };
+        if (content) where.body = { [Op.iLike]: `%${content}%` };
 
         const limit = parseInt(perPage, 10);
         const offset = (parseInt(page, 10) - 1) * limit;
@@ -67,97 +66,91 @@ const getAll = async ({
     }
 };
 
-const getPostsByUser = async (userId) => {
-    return await Post.findAll({
-        where: { authorId: userId },
-        include: [{
-            model: User,
-            as: "author",
-            attributes: ["id", "firstname", "lastname"]
-        }],
-        order: [['createdAt', 'DESC']]
-    });
+const getOne = async (id) => {
+    return await Post.findByPk(id); // Sequelize query
 };
 
-const updateOne = async ({ 
-    postId, 
-    title, 
-    post: content, 
-    userId 
-}) => {
+const updateOne = async ({ userId, id, title, body }) => {
     try {
-        if (!postId || !userId) {
-            error(400, 'Post ID and user ID are required');
+        //Input Validation
+        if (!id || !userId) {
+            throw new Error("ID and user ID are required");
         }
+        //Prepare Update Query
+        const updateFields = {
+            updatedAt: new Date()
+        };
+        if (title) updateFields.title = title;
+        if (body) updateFields.body = body;
 
-        const post = await Post.findOne({ where: { id: postId } });
+        //Find Post and Validate Ownership
+        const post = await Post.findByPk(id);
         if (!post) {
-            error(404, 'Post not found');
+            throw { statusCode: 404, message: "Post not found" };
         }
-
         if (post.authorId !== userId) {
-            error(403, 'Unauthorized to update this post');
+            throw { statusCode: 403, message: "Unauthorized access to this resource" };
         }
 
-        const updateData = {};
-        if (title) updateData.title = title;
-        if (content) updateData.post = content;
-        updateData.updatedAt = new Date();
-
-        const [affectedCount] = await Post.update(updateData, {
-            where: { id: postId }
+        //Execute Update (PostgreSQL optimized)
+        const [affectedCount, updatedPosts] = await Post.update(updateFields, {
+            where: { id },
+            returning: true, // Returns the updated record (PostgreSQL)
         });
 
-        if (affectedCount === 0) {
-            error(500, 'Failed to update post');
+        // Verify Update Success
+        if (affectedCount === 0 || !updatedPosts || updatedPosts.length === 0) {
+            throw { statusCode: 500, message: "Failed to update post" };
         }
 
-        return await Post.findByPk(postId, {
-            include: [{
-                model: User,
-                as: "author",
-                attributes: ["id", "firstname", "lastname", "email", "phone"]
-            }]
-        });
+        return updatedPosts[0]; // Return the first updated post
+
     } catch (err) {
-        if (err.name === 'SequelizeValidationError') {
-            const messages = err.errors.map(e => e.message);
-            error(400, messages.join(', '));
-        }
-        error(err.statusCode || 500, err.message || 'Failed to update post');
+        // Error Handling
+        console.error("[Update Post Error]:", err);
+        throw { statusCode: err.statusCode || 500, message: err.message || "Internal server error"};
     }
 };
 
-const deleteOne = async (postId, userId) => {
+const deleteOne = async ({ userId, id }) => {
     try {
-        if (!postId || !userId) {
-            error(400, 'Post ID and user ID are required');
+        //Input Validation
+        if (!id || !userId) {
+            throw { statusCode: 400, message: "ID and user ID are required" };
         }
 
-        const post = await Post.findOne({ where: { id: postId } });
+        // Find Post and Validate Ownership
+        const post = await Post.findByPk(id);
         if (!post) {
-            error(404, 'Post not found');
+            throw { statusCode: 404, message: "Post not found" };
         }
-
         if (post.authorId !== userId) {
-            error(403, 'Unauthorized to delete this post');
+            throw { statusCode: 403, message: "Unauthorized access to this resource" };
         }
 
-        const deletedCount = await Post.destroy({ where: { id: postId } });
+        // Execute Deletion
+        const deletedCount = await Post.destroy({ 
+            where: { id } 
+        });
+
+        //Verify Deletion Success
         if (deletedCount === 0) {
-            error(500, 'Failed to delete post');
+            throw { statusCode: 500, message: "Failed to delete post" };
         }
 
-        return { success: true, message: 'Post deleted successfully' };
+        return { success: true, message: "Post deleted successfully" };
+
     } catch (err) {
-        error(err.statusCode || 500, err.message || 'Failed to delete post');
+        console.error("[Delete Post Error]:", err);
+        throw {
+            statusCode: err.statusCode || 500,message: err.message || "Internal server error"};
     }
 };
-
+  
 module.exports = {
     create,
     getAll,
-    getPostsByUser,
+    getOne,
     updateOne,
     deleteOne
 };
