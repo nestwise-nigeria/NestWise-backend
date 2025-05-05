@@ -3,6 +3,7 @@ const express = require('express')
 const router = express.Router()
 const authroute = require('./src/modules/auth/routes/authRoutes')
 const propertyRoute = require('./src/modules/properties/routes/propertyRoutes')
+const postRoute = require('./src/modules/post/routes/postRoutes')
 const agentRoute = require('./src/modules/agents/routes/agentRoutes')
 const planRoute = require('./src/modules/payments/routes/planRoutes')
 
@@ -14,6 +15,7 @@ router.get('/', (req, res) => {
 
 router.use('/auth', authroute)
 router.use('/property', propertyRoute);
+router.use('/post', postRoute);
 router.use('/agents', agentRoute);
 router.use('/plan', planRoute)
 

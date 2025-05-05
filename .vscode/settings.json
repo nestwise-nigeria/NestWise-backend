@@ -1,0 +1,21 @@
+{
+    "sqltools.connections": [
+        {
+            "pgOptions": {
+                "ssl": {
+                    "rejectUnauthorized": true,
+                    "passphrase": "nestwise_Nigeria"
+                }
+            },
+            "previewLimit": 50,
+            "server": "dpg-d09njnbe5dus73btrdig-a.oregon-postgres.render.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "nestwisehomes",
+            "database": "nestwisehomes",
+            "username": "nestwisehomes_user",
+            "password": "OgjntpszK9li9fWEQ69O3h8svxLYu3PH",
+            "group": "nestwisehomes"
+        }
+    ]
+}
