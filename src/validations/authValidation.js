@@ -61,6 +61,7 @@ password: Joi.string()
     idType: Joi.string().valid('NIN', 'PVC', 'passport').optional(),
     idNumber: Joi.string().optional(),
     idPicture: Joi.string().optional(),
+    profilePicture: Joi.string().optional(),
 
     
 });
