@@ -6,7 +6,8 @@ const { addPost,
     getAllPost, 
     getSinglePost, 
     updateSinglePost, 
-    deleteSinglePost} = require('../controllers/postControllers');
+    deleteSinglePost,
+    getUserPosts } = require('../controllers/postControllers');
 
 const router = express.Router();
 router.get('/:id', getSinglePost);
